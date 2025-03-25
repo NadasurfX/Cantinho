@@ -159,6 +159,14 @@ body {
   margin-bottom: 0.5rem;
 }
 
+/* Limitar a descrição a 2 linhas para cards da ementa (exceto os de pastelaria) */
+.ementa-card:not(.pastelaria) .description {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
 .price {
   font-size: 1rem;
   color: #28a745;
