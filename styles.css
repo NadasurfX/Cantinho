@@ -157,10 +157,9 @@ body {
   color: #555;
   text-align: center;
   margin-bottom: 0.5rem;
-}
-
-/* Limitar a descrição a 2 linhas para cards da ementa (exceto os de pastelaria) */
-.ementa-card:not(.pastelaria) .description {
+  line-height: 1.4;
+  /* Altura mínima para garantir 2 linhas */
+  min-height: calc(1.4em * 2);
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
