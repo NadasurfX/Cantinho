@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cantinho da Avó</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet">
+  <!-- Vincule este arquivo ao seu CSS abaixo -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Navegação fixa -->
+  <nav class="nav">
+    <div class="container nav-container">
+      <div class="logo">Cantinho da Avó</div>
+      <button class="menu-toggle" aria-label="Abrir menu">☰</button>
+      <ul class="menu-links">
+        <li><a href="index.html">Início</a></li>
+        <li><a href="ementa.html">Ementa</a></li>
+        <li><a href="pastelaria.html">Pastelaria</a></li>
+        <li><a href="padaria.html">Padaria</a></li>
+        <li><a href="sobre.html">Sobre Nós</a></li>
+        <li><a href="contatos.html">Contatos</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero/Header -->
+  <header class="header">
+    <div class="hero-content">
+      <h1>Comida caseira todos os dias!</h1>
+      <p>Sabores tradicionais</p>
+    </div>
+  </header>
+
+  <!-- Secção Ementa do Dia -->
+  <section class="ementa container">
+    <h2 class="ementa-title">Ementa do dia</h2>
+    <p class="ementa-subtitle">08/04/2025</p>
+    <div class="ementa-grid">
+      
+      <!-- Cada "item" é um bloco com Título, Card (imagem+descrição) e Preço -->
+      <div class="item">
+        <h3>Sopa de Legumes</h3>
+        <div class="ementa-card">
+          <img src="/imagens/sopa legumes.jpg" alt="Sopa de Legumes">
+          <p class="description">Reconfortante e nutritiva feita com legumes frescos.</p>
+        </div>
+        <p class="price">€3.00</p>
+      </div>
+
+      <div class="item">
+        <h3>Bacalhau c/ grão de bico</h3>
+        <div class="ementa-card">
+          <img src="/imagens/bacalhau-com-natas.jpg" alt="Bacalhau">
+          <p class="description">Delicioso bacalhau com grão de bico, batata e ovo cozido.</p>
+        </div>
+        <p class="price">€10.50</p>
+      </div>
+
+      <div class="item">
+        <h3>Carne de Porco à Alentejana</h3>
+        <div class="ementa-card">
+          <img src="/imagens/rojoes.jpg" alt="Carne de Porco">
+          <p class="description">Saboroso e temperado à moda alentejana.</p>
+        </div>
+        <p class="price">€8.50</p>
+      </div>
+
+      <div class="item">
+        <h3>Maçã assada</h3>
+        <div class="ementa-card">
+          <img src="/imagens/fatiaamendocafe.jpg" alt="Maçã Assada">
+          <p class="description">Simples e saborosa para finalizar a refeição.</p>
+        </div>
+        <p class="price">€2.50</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Secção PASTELARIA -->
+  <section id="pastelaria" class="ementa container">
+    <h2 class="ementa-title">Pastelaria</h2>
+    <p class="ementa-subtitle">08/04/2025</p>
+    <div class="ementa-grid">
+
+      <div class="item">
+        <h3>Fatia de café</h3>
+        <div class="ementa-card pastelaria">
+          <img src="/imagens/fatiaamendocafe.jpg" alt="Fatia de café">
+          <p class="description">Delícia para os apreciadores de café.</p>
+        </div>
+        <p class="price">€1.20</p>
+      </div>
+
+      <div class="item">
+        <h3>Fatia de bolo de chocolate</h3>
+        <div class="ementa-card pastelaria">
+          <img src="/imagens/fatiachocolate.jpg" alt="Fatia de chocolate">
+          <p class="description">3 tipos de chocolate.</p>
+        </div>
+        <p class="price">€1.80</p>
+      </div>
+
+      <div class="item">
+        <h3>Donut</h3>
+        <div class="ementa-card pastelaria">
+          <img src="/imagens/donut.jpg" alt="Donut">
+          <p class="description">Saboroso e com açúcar.</p>
+        </div>
+        <p class="price">€1.00</p>
+      </div>
+
+      <div class="item">
+        <h3>Eclair</h3>
+        <div class="ementa-card pastelaria">
+          <img src="/imagens/eclair.jpg" alt="Eclair">
+          <p class="description">Simples e tradicional.</p>
+        </div>
+        <p class="price">€1.10</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Rodapé -->
+  <footer class="footer container">
+    <p>&copy; 2025 Cantinho da Avó. Todos os direitos reservados.</p>
+  </footer>
+
+  <!-- Script menu toggle -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const toggle = document.querySelector('.menu-toggle');
+      const links = document.querySelector('.menu-links');
+      toggle.addEventListener('click', () => {
+        links.classList.toggle('active');
+      });
+    });
+  </script>
+</body>
+</html>
