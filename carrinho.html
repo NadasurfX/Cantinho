@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carrinho de Pedidos - Cantinho da Avó</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Navegação (mesma do index) -->
+  <nav class="nav">
+    <div class="container nav-container">
+      <div class="logo">Cantinho da Avó</div>
+      <button class="menu-toggle" aria-label="Abrir menu">☰</button>
+      <ul class="menu-links">
+        <li><a href="index.html">Início</a></li>
+        <li><a href="ementa.html">Ementa</a></li>
+        <li><a href="pastelaria.html">Pastelaria</a></li>
+        <li><a href="padaria.html">Padaria</a></li>
+        <li><a href="carrinho.html">Encomendas</a></li>
+        <li><a href="sobre.html">Sobre Nós</a></li>
+        <li><a href="contatos.html">Contatos</a></li>
+      </ul>
+    </div>
+  </nav>
+  
+  <main class="container">
+    <h1>Carrinho de Pedidos</h1>
+    <div class="carrinho-form">
+      <h2>Monte seu Pedido</h2>
+      <!-- Itens do Pedido -->
+      <div class="item">
+        <label for="sopa">Sopa de Legumes:</label>
+        <input type="number" id="sopa" value="0" min="0">
+      </div>
+      <div class="item">
+        <label for="bacalhau">Bacalhau c/ grão de bico:</label>
+        <input type="number" id="bacalhau" value="0" min="0">
+      </div>
+      <div class="item">
+        <label for="bolo">Fatia de Bolo:</label>
+        <input type="number" id="bolo" value="0" min="0">
+      </div>
+      <!-- Dados do Cliente -->
+      <div class="item">
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" placeholder="Seu Nome">
+      </div>
+      <div class="item">
+        <label for="contribuinte">Contribuinte:</label>
+        <input type="text" id="contribuinte" placeholder="Nº Contribuinte">
+      </div>
+      <div class="item">
+        <label for="telefone">Telefone:</label>
+        <input type="text" id="telefone" placeholder="Seu Telefone">
+      </div>
+      <button onclick="finalizarPedido()">Finalizar Pedido via WhatsApp</button>
+    </div>
+  </main>
+  
+  <footer class="footer container">
+    <p>&copy; 2025 Cantinho da Avó. Todos os direitos reservados.</p>
+  </footer>
+  
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const toggle = document.querySelector('.menu-toggle');
+      const links = document.querySelector('.menu-links');
+      toggle.addEventListener('click', () => {
+        links.classList.toggle('active');
+      });
+    });
+    
+    function finalizarPedido(){
+      // Coleta os valores dos inputs
+      const sopa = document.getElementById('sopa').value;
+      const bacalhau = document.getElementById('bacalhau').value;
+      const bolo = document.getElementById('bolo').value;
+      const nome = document.getElementById('nome').value || '[Nome]';
+      const contribuinte = document.getElementById('contribuinte').value || '[Contribuinte]';
+      const telefone = document.getElementById('telefone').value || '[Telefone]';
+      
+      // Monta a mensagem do pedido com quebras de linha (%0A)
+      let mensagem = 'Pedido:%0A';
+      if(sopa > 0){
+          mensagem += '- Sopa de Legumes x' + sopa + '%0A';
+      }
+      if(bacalhau > 0){
+          mensagem += '- Bacalhau c/ grão de bico x' + bacalhau + '%0A';
+      }
+      if(bolo > 0){
+          mensagem += '- Fatia de Bolo x' + bolo + '%0A';
+      }
+      mensagem += '%0APagamento na entrega.%0A';
+      mensagem += '%0ADados do Cliente:%0A';
+      mensagem += 'Nome: ' + nome + '%0A';
+      mensagem += 'Contribuinte: ' + contribuinte + '%0A';
+      mensagem += 'Telefone: ' + telefone;
+      
+      // Número do WhatsApp (inclua o código do país, por exemplo, 55 para Brasil)
+      const numeroWhats = '5511999999999'; // Substitua pelo seu número
+      const url = 'https://wa.me/' + numeroWhats + '?text=' + mensagem;
+      window.open(url, '_blank');
+    }
+  </script>
+</body>
+</html>
+
