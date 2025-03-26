@@ -10,7 +10,6 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-
   <!-- Navegação fixa -->
   <nav class="nav">
     <div class="container nav-container">
@@ -18,16 +17,17 @@
       <button class="menu-toggle" aria-label="Abrir menu">☰</button>
       <ul class="menu-links">
         <li><a href="index.html">Início</a></li>
-        <li><a href="index2.html">Ementa</a></li>
+        <li><a href="ementa.html">Ementa</a></li>
         <li><a href="pastelaria.html">Pastelaria</a></li>
         <li><a href="padaria.html">Padaria</a></li>
+        <li><a href="carrinho.html">Encomendas</a></li>
         <li><a href="sobre.html">Sobre Nós</a></li>
         <li><a href="contatos.html">Contatos</a></li>
       </ul>
     </div>
   </nav>
 
-  <!-- Hero/Header -->
+  <!-- HEADER -->
   <header class="header">
     <div class="hero-content">
       <h1>Comida caseira todos os dias!</h1>
@@ -35,92 +35,38 @@
     </div>
   </header>
 
-  <!-- Secção Ementa do Dia -->
+  <!-- Exemplo de seção Ementa -->
   <section class="ementa container">
     <h2 class="ementa-title">Ementa do dia</h2>
     <p class="ementa-subtitle">08/04/2025</p>
     <div class="ementa-grid">
-      <div class="ementa-card">
-        <div class="title-wrapper">
-          <h3>Sopa de Legumes</h3>
+      <!-- Item 1 -->
+      <div class="item">
+        <h3>Sopa de Legumes</h3>
+        <div class="ementa-card">
+          <img src="./imagens/sopa_legumes.jpg" alt="Sopa de Legumes">
+          <p class="description">Reconfortante e nutritiva feita com legumes frescos.</p>
         </div>
-        <img src="./imagens/sopa legumes.jpg" alt="Sopa de Legumes">
-        <p class="description">Reconfortante e nutritiva feita com legumes frescos.</p>
         <p class="price">€3.00</p>
       </div>
-      <div class="ementa-card">
-        <div class="title-wrapper">
-          <h3>Bacalhau c/ grão de bico</h3>
+      <!-- Item 2 -->
+      <div class="item">
+        <h3>Bacalhau c/ grão de bico</h3>
+        <div class="ementa-card">
+          <img src="./imagens/bacalhau-com-natas.jpg" alt="Bacalhau">
+          <p class="description">Delicioso bacalhau com grão de bico, batata e ovo cozido.</p>
         </div>
-        <img src="./imagens/bacalhau-com-natas.jpg" alt="Bacalhau">
-        <p class="description">Delicioso bacalhau com grão de bico, batata e ovo cozido.</p>
         <p class="price">€10.50</p>
       </div>
-      <div class="ementa-card">
-        <div class="title-wrapper">
-          <h3>Carne de Porco à Alentejana</h3>
-        </div>
-        <img src="./imagens/rojoes.jpg" alt="Carne de Porco">
-        <p class="description">Saboroso e temperado à moda alentejana.</p>
-        <p class="price">€8.50</p>
-      </div>
-      <div class="ementa-card">
-        <div class="title-wrapper">
-          <h3>Maçã assada</h3>
-        </div>
-        <img src="./imagens/fatiaamendocafe.jpg" alt="Maçã Assada">
-        <p class="description">Simples e saborosa para finalizar a refeição.</p>
-        <p class="price">€2.50</p>
-      </div>
+      <!-- Outros itens podem ser adicionados de forma semelhante -->
     </div>
   </section>
 
-  <!-- Secção PASTELARIA -->
-  <section id="pastelaria" class="ementa container">
-    <h2 class="ementa-title">Pastelaria</h2>
-    <p class="ementa-subtitle">08/04/2025</p>
-    <div class="ementa-grid">
-      <div class="ementa-card pastelaria">
-        <div class="title-wrapper">
-          <h3>Fatia de café</h3>
-        </div>
-        <img src="./imagens/fatiaamendocafe.jpg" alt="Fatia de café">
-        <p class="description">Delícia para os apreciadores de café.</p>
-        <p class="price">€1.20</p>
-      </div>
-      <div class="ementa-card pastelaria">
-        <div class="title-wrapper">
-          <h3>Fatia de bolo de chocolate</h3>
-        </div>
-        <img src="./imagens/fatiachocolate.jpg" alt="Fatia de chocolate">
-        <p class="description">3 tipos de chocolate.</p>
-        <p class="price">€1.80</p>
-      </div>
-      <div class="ementa-card pastelaria">
-        <div class="title-wrapper">
-          <h3>Donut</h3>
-        </div>
-        <img src="./imagens/donut.jpg" alt="Donut">
-        <p class="description">Saboroso e com açúcar.</p>
-        <p class="price">€1.00</p>
-      </div>
-      <div class="ementa-card pastelaria">
-        <div class="title-wrapper">
-          <h3>Eclair</h3>
-        </div>
-        <img src="./imagens/eclair.jpg" alt="Eclair">
-        <p class="description">Simples e tradicional.</p>
-        <p class="price">€1.10</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Rodapé -->
+  <!-- RODAPÉ -->
   <footer class="footer container">
     <p>&copy; 2025 Cantinho da Avó. Todos os direitos reservados.</p>
   </footer>
 
-  <!-- Script menu toggle -->
   <script>
     document.addEventListener("DOMContentLoaded", function() {
       const toggle = document.querySelector('.menu-toggle');
