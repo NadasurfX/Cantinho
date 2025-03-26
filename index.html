@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+
   <!-- Navegação fixa -->
   <nav class="nav">
     <div class="container nav-container">
@@ -20,25 +21,28 @@
         <li><a href="ementa.html">Ementa</a></li>
         <li><a href="pastelaria.html">Pastelaria</a></li>
         <li><a href="padaria.html">Padaria</a></li>
-        <li><a href="carrinho.html">Encomendas</a></li>
+        <li><a href="encomendas.html">Encomendas</a></li>
         <li><a href="sobre.html">Sobre Nós</a></li>
         <li><a href="contatos.html">Contatos</a></li>
       </ul>
     </div>
   </nav>
 
-  <!-- HEADER -->
+  <!-- Hero/Header -->
   <header class="header">
     <div class="hero-content">
       <h1>Comida caseira todos os dias!</h1>
       <p>Sabores tradicionais</p>
+      <!-- Botão para direcionar à página de encomendas -->
+      <a href="encomendas.html" class="btn-encomenda">Fazer Encomenda</a>
     </div>
   </header>
 
-  <!-- Exemplo de seção Ementa -->
+  <!-- Secção Ementa do Dia -->
   <section class="ementa container">
     <h2 class="ementa-title">Ementa do dia</h2>
     <p class="ementa-subtitle">08/04/2025</p>
+
     <div class="ementa-grid">
       <!-- Item 1 -->
       <div class="item">
@@ -58,23 +62,79 @@
         </div>
         <p class="price">€10.50</p>
       </div>
-      <!-- Outros itens podem ser adicionados de forma semelhante -->
+      <!-- Item 3 -->
+      <div class="item">
+        <h3>Carne de Porco à Alentejana</h3>
+        <div class="ementa-card">
+          <img src="./imagens/rojoes.jpg" alt="Carne de Porco">
+          <p class="description">Saboroso e temperado à moda alentejana.</p>
+        </div>
+        <p class="price">€8.50</p>
+      </div>
+      <!-- Item 4 -->
+      <div class="item">
+        <h3>Maçã assada</h3>
+        <div class="ementa-card">
+          <img src="./imagens/fatiaamendocafe.jpg" alt="Maçã Assada">
+          <p class="description">Simples e saborosa para finalizar a refeição.</p>
+        </div>
+        <p class="price">€2.50</p>
+      </div>
     </div>
   </section>
 
-  <!-- RODAPÉ -->
+  <!-- Secção Pastelaria -->
+  <section id="pastelaria" class="ementa container">
+    <h2 class="ementa-title">Pastelaria</h2>
+    <p class="ementa-subtitle">08/04/2025</p>
+
+    <div class="ementa-grid">
+      <!-- Item 1 -->
+      <div class="item">
+        <h3>Fatia de café</h3>
+        <div class="ementa-card pastelaria">
+          <img src="./imagens/fatiaamendocafe.jpg" alt="Fatia de café">
+          <p class="description">Delícia para os apreciadores de café.</p>
+        </div>
+        <p class="price">€1.20</p>
+      </div>
+      <!-- Item 2 -->
+      <div class="item">
+        <h3>Fatia de bolo de chocolate</h3>
+        <div class="ementa-card pastelaria">
+          <img src="./imagens/fatiachocolate.jpg" alt="Fatia de chocolate">
+          <p class="description">3 tipos de chocolate.</p>
+        </div>
+        <p class="price">€1.80</p>
+      </div>
+      <!-- Item 3 -->
+      <div class="item">
+        <h3>Donut</h3>
+        <div class="ementa-card pastelaria">
+          <img src="./imagens/donut.jpg" alt="Donut">
+          <p class="description">Saboroso e com açúcar.</p>
+        </div>
+        <p class="price">€1.00</p>
+      </div>
+      <!-- Item 4 -->
+      <div class="item">
+        <h3>Eclair</h3>
+        <div class="ementa-card pastelaria">
+          <img src="./imagens/eclair.jpg" alt="Eclair">
+          <p class="description">Simples e tradicional.</p>
+        </div>
+        <p class="price">€1.10</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Rodapé -->
   <footer class="footer container">
     <p>&copy; 2025 Cantinho da Avó. Todos os direitos reservados.</p>
   </footer>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      const toggle = document.querySelector('.menu-toggle');
-      const links = document.querySelector('.menu-links');
-      toggle.addEventListener('click', () => {
-        links.classList.toggle('active');
-      });
-    });
-  </script>
+  <!-- Script para o menu toggle (arquivo js/main.js) -->
+  <script src="js/main.js"></script>
 </body>
 </html>
+
