@@ -9,15 +9,50 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <style>
-    /* Estilos adicionais para a página de Encomendas */
-
-    /* Estilo do botão de adicionar e controles do item */
+    /* Remover margens do body que vêm do styles.css, se houver */
+    body {
+      padding-top: 80px; /* caso precise compensar o nav fixo */
+    }
+    /* Ocultar qualquer header padrão do styles.css (caso exista) */
+    header.header {
+      display: none;
+    }
+    
+    /* Grid de itens */
+    .ementa-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+    /* Forçar imagens a terem mesmo tamanho */
+    .ementa-card img {
+      width: 100%;
+      max-width: 180px;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 6px;
+      margin-bottom: 0.5rem;
+    }
+    /* Título de até duas linhas */
+    .item h3 {
+      min-height: 2.8em; 
+      text-align: center;
+      overflow-wrap: break-word;
+      line-height: 1.4em;
+      margin-bottom: 0.5rem;
+    }
+    /* Controles (Preço à esquerda, Botão à direita) */
     .order-controls {
       display: flex;
       align-items: center;
       justify-content: space-between;
       width: 100%;
       margin-top: 10px;
+    }
+    .order-controls .price {
+      margin: 0;
+      color: #28a745;
+      font-weight: 600;
     }
     .order-controls button {
       padding: 5px 10px;
@@ -27,54 +62,101 @@
       border-radius: 4px;
       cursor: pointer;
     }
-    /* Força o título dos pratos a ocupar duas linhas, se necessário */
-    .item h3 {
-      min-height: 2.8em; /* ajuste conforme necessário */
-      text-align: center;
-      overflow-wrap: break-word;
-    }
-    /* Resumo do Pedido */
-    #order-summary {
-      margin: 20px 0;
-      border: 1px solid #ccc;
-      padding: 15px;
+    /* Toast (popup) ao adicionar item */
+    #toast {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      background-color: #28a745;
+      color: #fff;
+      padding: 10px 15px;
       border-radius: 4px;
-      background-color: #f9f9f9;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+      z-index: 9999;
     }
-    #order-summary h2 {
+    #toast.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    
+    /* Seção do Carrinho e Dados do Cliente lado a lado */
+    .cart-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .cart-box, .customer-box {
+      flex: 1;
+      min-width: 280px; /* para não ficar muito estreito em telas pequenas */
+      max-width: 500px; /* limite de largura */
+      background-color: #f9f9f9;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    .cart-box h2, .customer-box h2 {
       margin-bottom: 10px;
     }
+    /* Itens do carrinho */
     .order-item {
       display: flex;
       justify-content: space-between;
       margin-bottom: 5px;
     }
-    .order-item span {
-      margin-right: 10px;
+    .order-item button {
+      background: none;
+      border: none;
+      color: #d00;
+      cursor: pointer;
+      font-size: 0.9rem;
     }
-    /* Estilos para o formulário de dados do cliente */
-    .order-form input {
+    /* Total */
+    .cart-total {
+      margin-top: 10px;
+      font-weight: 700;
+      text-align: right;
+    }
+    /* Formulário do cliente */
+    .customer-box label {
+      display: block;
+      margin-bottom: 3px;
+      font-weight: 600;
+    }
+    .customer-box input {
       width: 100%;
       padding: 8px;
-      margin: 5px 0 15px;
+      margin-bottom: 15px;
       border: 1px solid #ccc;
       border-radius: 4px;
     }
-    .order-form label {
-      font-weight: 600;
+    .required-asterisk {
+      color: red;
+      margin-left: 3px;
     }
-    .order-form button {
-      padding: 10px 20px;
+    /* Botões finais (WhatsApp e Ligar) */
+    .final-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+    .final-buttons button,
+    .final-buttons a.call-button {
+      padding: 10px 15px;
       background-color: #28a745;
       border: none;
       color: #fff;
       border-radius: 4px;
       cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
     }
   </style>
 </head>
 <body>
-  <!-- Navegação (mesmo padrão dos demais arquivos) -->
+  <!-- Navegação fixa -->
   <nav class="nav">
     <div class="container nav-container">
       <div class="logo">Cantinho da Avó</div>
@@ -91,13 +173,8 @@
     </div>
   </nav>
 
-  <!-- Header -->
-  <header class="header">
-    <div class="hero-content">
-      <h1>Faça sua Encomenda</h1>
-      <p>Selecione os itens e finalize seu pedido via WhatsApp</p>
-    </div>
-  </header>
+  <!-- TOAST: popup de 2s ao adicionar item -->
+  <div id="toast"></div>
 
   <main class="container">
     <!-- Seção Ementa -->
@@ -113,8 +190,8 @@
             <p class="description">Reconfortante e nutritiva feita com legumes frescos.</p>
           </div>
           <div class="order-controls">
-            <button type="button" onclick="adicionarItem('sopa', 'Sopa de Legumes', 3.00)">Adicionar</button>
             <p class="price">€3.00</p>
+            <button type="button" onclick="adicionarItem('sopa', 'Sopa de Legumes', 3.00)">Adicionar</button>
           </div>
         </div>
         <!-- Item: Bacalhau c/ grão de bico -->
@@ -125,8 +202,8 @@
             <p class="description">Delicioso bacalhau com grão de bico, batata e ovo cozido.</p>
           </div>
           <div class="order-controls">
-            <button type="button" onclick="adicionarItem('bacalhau', 'Bacalhau c/ grão de bico', 10.50)">Adicionar</button>
             <p class="price">€10.50</p>
+            <button type="button" onclick="adicionarItem('bacalhau', 'Bacalhau c/ grão de bico', 10.50)">Adicionar</button>
           </div>
         </div>
         <!-- Item: Carne de Porco à Alentejana -->
@@ -137,20 +214,20 @@
             <p class="description">Saboroso e temperado à moda alentejana.</p>
           </div>
           <div class="order-controls">
-            <button type="button" onclick="adicionarItem('carne', 'Carne de Porco à Alentejana', 8.50)">Adicionar</button>
             <p class="price">€8.50</p>
+            <button type="button" onclick="adicionarItem('carne', 'Carne de Porco à Alentejana', 8.50)">Adicionar</button>
           </div>
         </div>
         <!-- Item: Maçã assada -->
         <div class="item">
           <h3>Maçã assada</h3>
           <div class="ementa-card">
-            <img src="./imagens/fatiaamendocafe.jpg" alt="Maçã Assada">
+            <img src="./imagens/maca_assada.jpg" alt="Maçã Assada">
             <p class="description">Simples e saborosa para finalizar a refeição.</p>
           </div>
           <div class="order-controls">
-            <button type="button" onclick="adicionarItem('maca', 'Maçã assada', 2.50)">Adicionar</button>
             <p class="price">€2.50</p>
+            <button type="button" onclick="adicionarItem('maca', 'Maçã assada', 2.50)">Adicionar</button>
           </div>
         </div>
       </div>
@@ -169,8 +246,8 @@
             <p class="description">Delícia para os apreciadores de café.</p>
           </div>
           <div class="order-controls">
-            <button type="button" onclick="adicionarItem('cafe', 'Fatia de café', 1.20)">Adicionar</button>
             <p class="price">€1.20</p>
+            <button type="button" onclick="adicionarItem('cafe', 'Fatia de café', 1.20)">Adicionar</button>
           </div>
         </div>
         <!-- Item: Fatia de bolo de chocolate -->
@@ -181,8 +258,8 @@
             <p class="description">3 tipos de chocolate.</p>
           </div>
           <div class="order-controls">
-            <button type="button" onclick="adicionarItem('chocolate', 'Fatia de bolo de chocolate', 1.80)">Adicionar</button>
             <p class="price">€1.80</p>
+            <button type="button" onclick="adicionarItem('chocolate', 'Fatia de bolo de chocolate', 1.80)">Adicionar</button>
           </div>
         </div>
         <!-- Item: Donut -->
@@ -193,8 +270,8 @@
             <p class="description">Saboroso e com açúcar.</p>
           </div>
           <div class="order-controls">
-            <button type="button" onclick="adicionarItem('donut', 'Donut', 1.00)">Adicionar</button>
             <p class="price">€1.00</p>
+            <button type="button" onclick="adicionarItem('donut', 'Donut', 1.00)">Adicionar</button>
           </div>
         </div>
         <!-- Item: Eclair -->
@@ -205,38 +282,42 @@
             <p class="description">Simples e tradicional.</p>
           </div>
           <div class="order-controls">
-            <button type="button" onclick="adicionarItem('eclair', 'Eclair', 1.10)">Adicionar</button>
             <p class="price">€1.10</p>
+            <button type="button" onclick="adicionarItem('eclair', 'Eclair', 1.10)">Adicionar</button>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Resumo do Pedido -->
-    <section id="order-summary">
-      <h2>Resumo do Pedido</h2>
-      <div id="order-items">
-        <p>Nenhum item selecionado.</p>
+    <!-- Carrinho e Formulário lado a lado -->
+    <div class="cart-container">
+      <!-- Carrinho -->
+      <div class="cart-box">
+        <h2>Carrinho</h2>
+        <div id="order-items">
+          <p>Nenhum item selecionado.</p>
+        </div>
+        <div class="cart-total" id="cart-total">Total: €0.00</div>
       </div>
-    </section>
-
-    <!-- Dados do Cliente -->
-    <section class="order-form">
-      <h2>Dados do Cliente</h2>
-      <div class="item">
-        <label for="nome">Nome:</label>
+      
+      <!-- Dados do Cliente -->
+      <div class="customer-box">
+        <h2>Dados do Cliente</h2>
+        <label for="nome">Nome<span class="required-asterisk">*</span>:</label>
         <input type="text" id="nome" placeholder="Seu Nome" required>
-      </div>
-      <div class="item">
-        <label for="contribuinte">Contribuinte:</label>
+        
+        <label for="contribuinte">Contribuinte<span class="required-asterisk">*</span>:</label>
         <input type="text" id="contribuinte" placeholder="Nº Contribuinte" required>
-      </div>
-      <div class="item">
-        <label for="telefone">Telefone:</label>
+        
+        <label for="telefone">Telefone<span class="required-asterisk">*</span>:</label>
         <input type="text" id="telefone" placeholder="Seu Telefone" required>
+        
+        <div class="final-buttons">
+          <button onclick="finalizarPedido()">Finalizar</button>
+          <a href="tel:+351932902550" class="call-button">Ligue-nos</a>
+        </div>
       </div>
-      <button onclick="finalizarPedido()">Finalizar Pedido via WhatsApp</button>
-    </section>
+    </div>
   </main>
 
   <!-- Rodapé -->
@@ -244,53 +325,74 @@
     <p>&copy; 2025 Cantinho da Avó. Todos os direitos reservados.</p>
   </footer>
 
-  <script src="js/main.js"></script>
   <script>
-    // Array para armazenar o pedido
+    // Armazena itens do pedido
     let pedido = [];
 
-    // Função para adicionar item ao pedido
+    // Exibir Toast por 2 segundos
+    function showToast(mensagem) {
+      const toast = document.getElementById('toast');
+      toast.textContent = mensagem;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2000);
+    }
+
+    // Adicionar item ao carrinho
     function adicionarItem(id, nome, preco) {
-      // Procura o item no pedido
-      let itemExistente = pedido.find(item => item.id === id);
+      const itemExistente = pedido.find(item => item.id === id);
       if (itemExistente) {
         itemExistente.quantidade++;
       } else {
         pedido.push({ id, nome, preco, quantidade: 1 });
       }
       atualizarResumo();
+      showToast(`Foi adicionado: ${nome}`);
     }
 
-    // Função para remover item do pedido
+    // Remover item do carrinho
     function removerItem(id) {
       pedido = pedido.filter(item => item.id !== id);
       atualizarResumo();
     }
 
-    // Atualiza o resumo do pedido
+    // Atualizar o resumo do carrinho
     function atualizarResumo() {
       const container = document.getElementById('order-items');
+      const totalContainer = document.getElementById('cart-total');
       container.innerHTML = '';
+
       if (pedido.length === 0) {
         container.innerHTML = '<p>Nenhum item selecionado.</p>';
+        totalContainer.textContent = 'Total: €0.00';
         return;
       }
+
+      let total = 0;
       pedido.forEach(item => {
+        const subtotal = item.preco * item.quantidade;
+        total += subtotal;
+        
         const div = document.createElement('div');
         div.className = 'order-item';
-        div.innerHTML = `<span>${item.nome} x${item.quantidade}</span><span>€${(item.preco * item.quantidade).toFixed(2)}</span> <button onclick="removerItem('${item.id}')">Remover</button>`;
+        div.innerHTML = `
+          <span>${item.nome} x${item.quantidade}</span>
+          <span>€${subtotal.toFixed(2)}</span>
+          <button onclick="removerItem('${item.id}')">Remover</button>
+        `;
         container.appendChild(div);
       });
+      totalContainer.textContent = `Total: €${total.toFixed(2)}`;
     }
 
-    // Função para finalizar o pedido
+    // Finalizar Pedido
     function finalizarPedido() {
-      // Verifica se há itens selecionados
       if (pedido.length === 0) {
         alert('Nenhum item foi selecionado!');
         return;
       }
-      // Verifica se os campos obrigatórios estão preenchidos
+      // Verifica campos obrigatórios
       const nome = document.getElementById('nome').value.trim();
       const contribuinte = document.getElementById('contribuinte').value.trim();
       const telefone = document.getElementById('telefone').value.trim();
@@ -298,24 +400,28 @@
         alert('Por favor, preencha todos os campos obrigatórios.');
         return;
       }
-      
+
       let mensagem = 'Pedido:%0A';
+      let total = 0;
       pedido.forEach(item => {
-        mensagem += `- ${item.nome} x${item.quantidade} - €${(item.preco * item.quantidade).toFixed(2)}%0A`;
+        const subtotal = item.preco * item.quantidade;
+        total += subtotal;
+        mensagem += `- ${item.nome} x${item.quantidade} - €${subtotal.toFixed(2)}%0A`;
       });
+      mensagem += `%0ATotal: €${total.toFixed(2)}%0A`;
       mensagem += '%0APagamento na entrega.%0A';
       mensagem += '%0ADados do Cliente:%0A';
       mensagem += `Nome: ${nome}%0A`;
       mensagem += `Contribuinte: ${contribuinte}%0A`;
       mensagem += `Telefone: ${telefone}`;
-      
-      // Número do WhatsApp com código internacional (351 para Portugal)
-      const numeroWhats = '351932902550';
+
+      // Abrir WhatsApp
+      const numeroWhats = '351932902550'; 
       const url = 'https://wa.me/' + numeroWhats + '?text=' + mensagem;
       window.open(url, '_blank');
     }
-    
-    // Script para o menu toggle
+
+    // Menu toggle
     document.addEventListener("DOMContentLoaded", function() {
       const toggle = document.querySelector('.menu-toggle');
       const links = document.querySelector('.menu-links');
