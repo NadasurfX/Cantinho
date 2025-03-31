@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Ementa Semanal</title>
+  <title>Cantinho da Avó</title>
+  <!-- Fonte -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet">
   <style>
-    /* RESET BÁSICO */
+    /* RESET E CONFIGURAÇÕES GLOBAIS */
     * {
       margin: 0;
       padding: 0;
@@ -19,29 +20,94 @@
       background-color: #fff;
       color: #333;
       line-height: 1.6;
-      padding: 20px;
     }
-
-    h1, h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    /* CONTAINER */
     .container {
+      width: 90%;
       max-width: 1200px;
       margin: 0 auto;
+      padding: 20px 0;
     }
-
-    /* TÍTULO DA SEÇÃO */
+    
+    /* NAVEGAÇÃO */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: rgba(255,255,255,0.95);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      z-index: 1000;
+      padding: 10px 0;
+    }
+    .nav .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: #333;
+    }
+    .menu-links {
+      list-style: none;
+      display: flex;
+      gap: 15px;
+    }
+    .menu-links li a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+    }
+    .menu-links li a:hover {
+      color: #28a745;
+    }
+    
+    /* HEADER com imagem de fundo */
+    header.header {
+      background: url("./imagens/cantinho.jpg") no-repeat center/cover;
+      height: 400px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: #fff;
+      padding-top: 60px; /* Espaço para compensar a nav fixa */
+    }
+    .hero-content h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    }
+    .hero-content p {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    }
+    .btn-encomenda {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #28a745;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+    
+    /* SEÇÃO EMENTA SEMANAL */
     .section-title {
       font-size: 2rem;
       font-weight: 700;
-      margin-bottom: 20px;
+      margin: 80px 0 20px;
       text-align: center;
     }
-
-    /* TABELA - ECRÃS GRANDES (>= 769px) */
+    
+    .table-responsive {
+      overflow-x: auto;
+    }
+    
+    /* TABELA para telas grandes */
     @media (min-width: 769px) {
       .menu-table {
         width: 100%;
@@ -55,6 +121,7 @@
       .menu-table thead th {
         padding: 10px;
         font-size: 1rem;
+        text-align: left;
       }
       .menu-table tbody td {
         border: 1px solid #ddd;
@@ -64,14 +131,10 @@
       .menu-table tbody tr:nth-child(even) {
         background-color: #f9f9f9;
       }
-      .menu-table th, .menu-table td {
-        text-align: left;
-      }
     }
-
-    /* TABELA - ECRÃS PEQUENOS (<= 768px) */
+    
+    /* TABELA para telas pequenas */
     @media (max-width: 768px) {
-      /* Esconde o cabeçalho tradicional */
       .menu-table thead {
         display: none;
       }
@@ -81,140 +144,126 @@
       }
       .menu-table tr {
         margin-bottom: 20px;
-        border: 2px solid #28a745;  /* Borda verde ao redor de cada dia */
+        border: 3px solid green; /* Borda verde grossa para cada dia */
         border-radius: 6px;
         padding: 10px;
       }
       .menu-table td {
         position: relative;
         padding: 10px 10px 10px 40%;
-        border: none; /* Remove bordas internas */
+        border: none;
       }
       .menu-table td::before {
         content: attr(data-label);
         position: absolute;
         left: 10px;
+        width: 30%;
+        padding-right: 10px;
+        text-align: left;
         font-weight: 700;
         color: #28a745;
       }
-      /* Ajusta espaçamento entre células */
-      .menu-table td:not(:last-child) {
-        margin-bottom: 5px;
-      }
     }
-
-    /* OPÇÃO: estilo para "Dia" se quiser destacar ainda mais */
+    
+    /* OPÇÕES: destaque para a coluna Dia */
     .day-col {
       font-weight: 700;
     }
-
   </style>
 </head>
 <body>
-   <!-- Navegação -->
-  <nav class="nav">
-    <div class="container nav-container">
+  <!-- Navegação e Header (mantidos como no index) -->
+  <header class="header">
+    <nav class="nav container">
       <div class="logo">Cantinho da Avó</div>
-      <button class="menu-toggle" aria-label="Abrir menu">☰</button>
       <ul class="menu-links">
         <li><a href="index.html">Início</a></li>
-        <li><a href="ementa.html">Ementa</a></li>
-        <li><a href="pastelaria.html">Pastelaria</a></li>
-        <li><a href="padaria.html">Padaria</a></li>
-        <li><a href="encomendas.html">Encomendas</a></li>
-        <li><a href="sobre.html">Sobre Nós</a></li>
-        <li><a href="contatos.html">Contatos</a></li>
+        <li><a href="#ementa-semanal">Ementa do Dia</a></li>
+        <li><a href="#contatos">Contatos</a></li>
       </ul>
-    </div>
-  </nav>
-  
-  <!-- Header -->
-  <header class="header">
+    </nav>
     <div class="hero-content">
       <h1>Comida caseira todos os dias!</h1>
       <p>Sabores tradicionais</p>
       <a href="encomendas.html" class="btn-encomenda">Fazer Encomenda</a>
     </div>
-  <h1>Ementa Semanal</h1>
-  <div class="container">
-    <h2 class="section-title">20 a 25 de Janeiro</h2>
-    
-    <table class="menu-table">
-      <thead>
-        <tr>
-          <th>Dia</th>
-          <th>Sopa</th>
-          <th>Prato 1</th>
-          <th>Preço</th>
-          <th>Prato 2</th>
-          <th>Preço</th>
-          <th>Sobremesa</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- SEGUNDA -->
-        <tr>
-          <td class="day-col" data-label="Dia">Segunda</td>
-          <td data-label="Sopa">Legumes</td>
-          <td data-label="Prato 1">Bacalhau c/ grão de bico, batata e ovo cozido</td>
-          <td data-label="Preço">10.50€</td>
-          <td data-label="Prato 2">Carne de Porco à Alentejana</td>
-          <td data-label="Preço">8.50€</td>
-          <td data-label="Sobremesa">Maçã Assada</td>
-        </tr>
-        <!-- TERÇA -->
-        <tr>
-          <td class="day-col" data-label="Dia">Terça</td>
-          <td data-label="Sopa">Legumes</td>
-          <td data-label="Prato 1">Panado de Frango c/ Arroz de Feijão</td>
-          <td data-label="Preço">8.50€</td>
-          <td data-label="Prato 2">Empadão de Carne</td>
-          <td data-label="Preço">8.50€</td>
-          <td data-label="Sobremesa">Salada de Fruta</td>
-        </tr>
-        <!-- QUARTA -->
-        <tr>
-          <td class="day-col" data-label="Dia">Quarta</td>
-          <td data-label="Sopa">Legumes</td>
-          <td data-label="Prato 1">Rojões c/ Batata Cozida</td>
-          <td data-label="Preço">10.50€</td>
-          <td data-label="Prato 2">Bacalhau c/ Batatas</td>
-          <td data-label="Preço">8.50€</td>
-          <td data-label="Sobremesa">Gelatina</td>
-        </tr>
-        <!-- QUINTA -->
-        <tr>
-          <td class="day-col" data-label="Dia">Quinta</td>
-          <td data-label="Sopa">Legumes</td>
-          <td data-label="Prato 1">Feijoada à Transmontana</td>
-          <td data-label="Preço">8.50€</td>
-          <td data-label="Prato 2">Ossobuco c/ Puré</td>
-          <td data-label="Preço">10.50€</td>
-          <td data-label="Sobremesa">Fruta da Época</td>
-        </tr>
-        <!-- SEXTA -->
-        <tr>
-          <td class="day-col" data-label="Dia">Sexta</td>
-          <td data-label="Sopa">Legumes</td>
-          <td data-label="Prato 1">Arroz à Valenciana</td>
-          <td data-label="Preço">8.50€</td>
-          <td data-label="Prato 2">Escalopes de Porco c/ Batata e Arroz</td>
-          <td data-label="Preço">8.50€</td>
-          <td data-label="Sobremesa">Pudim</td>
-        </tr>
-        <!-- SÁBADO -->
-        <tr>
-          <td class="day-col" data-label="Dia">Sábado</td>
-          <td data-label="Sopa">Legumes</td>
-          <td data-label="Prato 1">Frango no Churrasco c/ Batata Frita e Arroz</td>
-          <td data-label="Preço">9.50€</td>
-          <td data-label="Prato 2">-</td>
-          <td data-label="Preço"></td>
-          <td data-label="Sobremesa">Fruta da Época</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  </header>
+  
+  <!-- Seção Ementa Semanal -->
+  <section id="ementa-semanal" class="container">
+    <h2 class="section-title">Ementa Semanal (20 a 25 de Janeiro)</h2>
+    <div class="table-responsive">
+      <table class="menu-table">
+        <thead>
+          <tr>
+            <th class="day-col">Dia</th>
+            <th>Sopa</th>
+            <th>Prato 1</th>
+            <th>Preço</th>
+            <th>Prato 2</th>
+            <th>Preço</th>
+            <th>Sobremesa</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="day-col" data-label="Dia">Segunda</td>
+            <td data-label="Sopa">Legumes</td>
+            <td data-label="Prato 1">Bacalhau c/ grão de bico, batata e ovo cozido</td>
+            <td data-label="Preço">10.50€</td>
+            <td data-label="Prato 2">Carne de Porco à Alentejana</td>
+            <td data-label="Preço">8.50€</td>
+            <td data-label="Sobremesa">Maçã Assada</td>
+          </tr>
+          <tr>
+            <td class="day-col" data-label="Dia">Terça</td>
+            <td data-label="Sopa">Legumes</td>
+            <td data-label="Prato 1">Panado de Frango c/ Arroz de Feijão</td>
+            <td data-label="Preço">8.50€</td>
+            <td data-label="Prato 2">Empadão de Carne</td>
+            <td data-label="Preço">8.50€</td>
+            <td data-label="Sobremesa">Salada de Fruta</td>
+          </tr>
+          <tr>
+            <td class="day-col" data-label="Dia">Quarta</td>
+            <td data-label="Sopa">Legumes</td>
+            <td data-label="Prato 1">Rojões c/ Batata Cozida</td>
+            <td data-label="Preço">10.50€</td>
+            <td data-label="Prato 2">Bacalhau c/ Batatas</td>
+            <td data-label="Preço">8.50€</td>
+            <td data-label="Sobremesa">Gelatina</td>
+          </tr>
+          <tr>
+            <td class="day-col" data-label="Dia">Quinta</td>
+            <td data-label="Sopa">Legumes</td>
+            <td data-label="Prato 1">Feijoada à Transmontana</td>
+            <td data-label="Preço">8.50€</td>
+            <td data-label="Prato 2">Ossobuco c/ Puré</td>
+            <td data-label="Preço">10.50€</td>
+            <td data-label="Sobremesa">Fruta da Época</td>
+          </tr>
+          <tr>
+            <td class="day-col" data-label="Dia">Sexta</td>
+            <td data-label="Sopa">Legumes</td>
+            <td data-label="Prato 1">Arroz à Valenciana</td>
+            <td data-label="Preço">8.50€</td>
+            <td data-label="Prato 2">Escalopes de Porco c/ Batata e Arroz</td>
+            <td data-label="Preço">8.50€</td>
+            <td data-label="Sobremesa">Pudim</td>
+          </tr>
+          <tr>
+            <td class="day-col" data-label="Dia">Sábado</td>
+            <td data-label="Sopa">Legumes</td>
+            <td data-label="Prato 1">Frango no Churrasco c/ Batata Frita e Arroz</td>
+            <td data-label="Preço">9.50€</td>
+            <td data-label="Prato 2">-</td>
+            <td data-label="Preço"></td>
+            <td data-label="Sobremesa">Fruta da Época</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
 </body>
 </html>
 
