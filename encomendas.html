@@ -9,22 +9,21 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <style>
-    /* Remover margens do body que vêm do styles.css, se houver */
+    /* --- Ajustes Gerais --- */
     body {
-      padding-top: 80px; /* caso precise compensar o nav fixo */
+      padding-top: 80px; /* Compensa o nav fixo */
     }
-    /* Ocultar qualquer header padrão do styles.css (caso exista) */
     header.header {
-      display: none;
+      display: none; /* Remove cabeçalho superior */
     }
     
-    /* Grid de itens */
+    /* --- Grid de Cards --- */
     .ementa-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 2rem;
     }
-    /* Forçar imagens a terem mesmo tamanho */
+    /* Força as imagens a terem 180px de altura e largura máxima de 180px */
     .ementa-card img {
       width: 100%;
       max-width: 180px;
@@ -33,20 +32,28 @@
       border-radius: 6px;
       margin-bottom: 0.5rem;
     }
-    /* Título de até duas linhas */
+    /* Títulos com duas linhas fixas */
     .item h3 {
-      min-height: 2.8em; 
+      min-height: 2.8em; /* Aproximadamente duas linhas */
+      line-height: 1.4em;
       text-align: center;
       overflow-wrap: break-word;
-      line-height: 1.4em;
       margin-bottom: 0.5rem;
     }
-    /* Controles (Preço à esquerda, Botão à direita) */
+    /* Descrições com altura fixa para duas linhas */
+    .ementa-card .description {
+      min-height: calc(1.4em * 2);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-align: center;
+    }
+    /* Controles: preço e botão centralizados abaixo do card */
     .order-controls {
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: space-between;
-      width: 100%;
       margin-top: 10px;
     }
     .order-controls .price {
@@ -61,8 +68,10 @@
       color: #fff;
       border-radius: 4px;
       cursor: pointer;
+      margin-top: 5px;
     }
-    /* Toast (popup) ao adicionar item */
+    
+    /* --- Toast (Popup) --- */
     #toast {
       position: fixed;
       top: 15px;
@@ -78,20 +87,20 @@
     }
     #toast.show {
       opacity: 1;
-      pointer-events: auto;
     }
     
-    /* Seção do Carrinho e Dados do Cliente lado a lado */
+    /* --- Carrinho e Dados do Cliente --- */
     .cart-container {
       display: flex;
       flex-wrap: wrap;
       gap: 20px;
       margin-top: 20px;
+      justify-content: center;
     }
     .cart-box, .customer-box {
       flex: 1;
-      min-width: 280px; /* para não ficar muito estreito em telas pequenas */
-      max-width: 500px; /* limite de largura */
+      min-width: 280px;
+      max-width: 500px;
       background-color: #f9f9f9;
       padding: 20px;
       border: 1px solid #ccc;
@@ -99,21 +108,27 @@
     }
     .cart-box h2, .customer-box h2 {
       margin-bottom: 10px;
+      text-align: center;
     }
     /* Itens do carrinho */
     .order-item {
       display: flex;
       justify-content: space-between;
+      align-items: center;
       margin-bottom: 5px;
     }
-    .order-item button {
-      background: none;
-      border: none;
-      color: #d00;
-      cursor: pointer;
-      font-size: 0.9rem;
+    .order-item .item-name {
+      /* Limita a 16 caracteres e adiciona reticências se ultrapassar */
+      max-width: 120px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
-    /* Total */
+    .order-item .item-price {
+      min-width: 70px;
+      text-align: right;
+    }
+    /* Total do carrinho */
     .cart-total {
       margin-top: 10px;
       font-weight: 700;
@@ -136,11 +151,12 @@
       color: red;
       margin-left: 3px;
     }
-    /* Botões finais (WhatsApp e Ligar) */
+    /* Botões finais */
     .final-buttons {
       display: flex;
       gap: 10px;
       margin-top: 15px;
+      justify-content: center;
     }
     .final-buttons button,
     .final-buttons a.call-button {
@@ -152,6 +168,11 @@
       cursor: pointer;
       text-decoration: none;
       display: inline-block;
+    }
+    
+    /* --- Espaçamento antes do Rodapé --- */
+    main.container {
+      margin-bottom: 0; /* Remove linhas extras antes do rodapé */
     }
   </style>
 </head>
@@ -172,8 +193,8 @@
       </ul>
     </div>
   </nav>
-
-  <!-- TOAST: popup de 2s ao adicionar item -->
+  
+  <!-- Toast popup -->
   <div id="toast"></div>
 
   <main class="container">
@@ -289,7 +310,7 @@
       </div>
     </section>
 
-    <!-- Carrinho e Formulário lado a lado -->
+    <!-- Carrinho e Dados do Cliente -->
     <div class="cart-container">
       <!-- Carrinho -->
       <div class="cart-box">
@@ -299,7 +320,6 @@
         </div>
         <div class="cart-total" id="cart-total">Total: €0.00</div>
       </div>
-      
       <!-- Dados do Cliente -->
       <div class="customer-box">
         <h2>Dados do Cliente</h2>
@@ -313,7 +333,7 @@
         <input type="text" id="telefone" placeholder="Seu Telefone" required>
         
         <div class="final-buttons">
-          <button onclick="finalizarPedido()">Finalizar</button>
+          <button onclick="finalizarPedido()">Finalizar Pedido</button>
           <a href="tel:+351932902550" class="call-button">Ligue-nos</a>
         </div>
       </div>
@@ -325,11 +345,12 @@
     <p>&copy; 2025 Cantinho da Avó. Todos os direitos reservados.</p>
   </footer>
 
+  <script src="js/main.js"></script>
   <script>
-    // Armazena itens do pedido
+    // Array que armazena os itens do pedido
     let pedido = [];
 
-    // Exibir Toast por 2 segundos
+    // Exibe o toast (popup) por 2 segundos
     function showToast(mensagem) {
       const toast = document.getElementById('toast');
       toast.textContent = mensagem;
@@ -339,7 +360,7 @@
       }, 2000);
     }
 
-    // Adicionar item ao carrinho
+    // Função para adicionar item ao carrinho
     function adicionarItem(id, nome, preco) {
       const itemExistente = pedido.find(item => item.id === id);
       if (itemExistente) {
@@ -351,13 +372,13 @@
       showToast(`Foi adicionado: ${nome}`);
     }
 
-    // Remover item do carrinho
+    // Função para remover item do carrinho
     function removerItem(id) {
       pedido = pedido.filter(item => item.id !== id);
       atualizarResumo();
     }
 
-    // Atualizar o resumo do carrinho
+    // Atualiza o resumo do carrinho
     function atualizarResumo() {
       const container = document.getElementById('order-items');
       const totalContainer = document.getElementById('cart-total');
@@ -373,12 +394,15 @@
       pedido.forEach(item => {
         const subtotal = item.preco * item.quantidade;
         total += subtotal;
-        
+        let displayName = item.nome;
+        if (displayName.length > 16) {
+          displayName = displayName.substring(0, 16) + '...';
+        }
         const div = document.createElement('div');
         div.className = 'order-item';
         div.innerHTML = `
-          <span>${item.nome} x${item.quantidade}</span>
-          <span>€${subtotal.toFixed(2)}</span>
+          <span class="item-name">${displayName} x${item.quantidade}</span>
+          <span class="item-price">€${subtotal.toFixed(2)}</span>
           <button onclick="removerItem('${item.id}')">Remover</button>
         `;
         container.appendChild(div);
@@ -386,13 +410,13 @@
       totalContainer.textContent = `Total: €${total.toFixed(2)}`;
     }
 
-    // Finalizar Pedido
+    // Finaliza o pedido e redireciona para o WhatsApp
     function finalizarPedido() {
       if (pedido.length === 0) {
         alert('Nenhum item foi selecionado!');
         return;
       }
-      // Verifica campos obrigatórios
+      // Verifica se os campos obrigatórios estão preenchidos
       const nome = document.getElementById('nome').value.trim();
       const contribuinte = document.getElementById('contribuinte').value.trim();
       const telefone = document.getElementById('telefone').value.trim();
@@ -415,8 +439,8 @@
       mensagem += `Contribuinte: ${contribuinte}%0A`;
       mensagem += `Telefone: ${telefone}`;
 
-      // Abrir WhatsApp
-      const numeroWhats = '351932902550'; 
+      // Número do WhatsApp com código internacional (351 para Portugal)
+      const numeroWhats = '351932902550';
       const url = 'https://wa.me/' + numeroWhats + '?text=' + mensagem;
       window.open(url, '_blank');
     }
