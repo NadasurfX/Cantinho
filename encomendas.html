@@ -8,8 +8,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <!-- Estilos específicos para os controles e centralização da seção de pastelaria -->
   <style>
-    /* Estilos para os controles de quantidade já existentes */
     .quantity-control {
       display: flex;
       align-items: center;
@@ -31,9 +31,12 @@
     .encomendas-form .item {
       margin-bottom: 15px;
     }
-    /* Estilos para a seção de Pastelaria dinâmica */
+    /* Centraliza a seleção dinâmica da pastelaria */
     .pastelaria-selection {
       margin-bottom: 15px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
     .pastelaria-selection select {
       padding: 8px;
@@ -51,15 +54,17 @@
     }
     .pastelaria-list {
       margin-top: 10px;
+      text-align: center;
     }
     .pastelaria-item {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: center;
       background-color: #f0f0f0;
       padding: 5px 10px;
       border-radius: 4px;
       margin-bottom: 5px;
+      gap: 10px;
     }
     .pastelaria-item span {
       flex-grow: 1;
@@ -253,8 +258,8 @@
       mensagem += 'Contribuinte: ' + contribuinte + '%0A';
       mensagem += 'Telefone: ' + telefone;
       
-      // Número do WhatsApp (incluir código do país, ex.: 55 para Brasil)
-      const numeroWhats = '5511999999999'; // Altere para o seu número
+      // Número do WhatsApp do estabelecimento com código internacional (351 para Portugal)
+      const numeroWhats = '351932902550';
       const url = 'https://wa.me/' + numeroWhats + '?text=' + mensagem;
       window.open(url, '_blank');
     }
