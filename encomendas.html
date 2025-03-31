@@ -9,21 +9,16 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <style>
-    /* --- Ajustes Gerais --- */
-    body {
-      padding-top: 80px; /* Compensa o nav fixo */
-    }
-    header.header {
-      display: none; /* Remove cabeçalho superior */
-    }
-    
-    /* --- Grid de Cards --- */
+    /* Remoção do header, pois não desejamos a imagem e as frases superiores */
+    header.header { display: none; }
+
+    /* Grid de Cards */
     .ementa-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 2rem;
     }
-    /* Força as imagens a terem 180px de altura e largura máxima de 180px */
+    /* Força as imagens a terem tamanho fixo */
     .ementa-card img {
       width: 100%;
       max-width: 180px;
@@ -32,15 +27,15 @@
       border-radius: 6px;
       margin-bottom: 0.5rem;
     }
-    /* Títulos com duas linhas fixas */
+    /* Títulos com altura fixa para 2 linhas */
     .item h3 {
-      min-height: 2.8em; /* Aproximadamente duas linhas */
+      min-height: 2.8em; 
       line-height: 1.4em;
       text-align: center;
       overflow-wrap: break-word;
       margin-bottom: 0.5rem;
     }
-    /* Descrições com altura fixa para duas linhas */
+    /* Descrições com altura fixa para 2 linhas */
     .ementa-card .description {
       min-height: calc(1.4em * 2);
       display: -webkit-box;
@@ -49,7 +44,21 @@
       overflow: hidden;
       text-align: center;
     }
-    /* Controles: preço e botão centralizados abaixo do card */
+    /* Definindo altura fixa para os cards para alinhar os controles */
+    .ementa-card {
+      height: 250px;
+      background-color: #f9f9f9;
+      border: 2px solid #28a745;
+      border-radius: 8px;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+    }
+    .ementa-card.pastelaria { border-color: #ffc107; }
+
+    /* Controles: preço e botão centralizados (um abaixo do outro) */
     .order-controls {
       display: flex;
       flex-direction: column;
@@ -70,8 +79,8 @@
       cursor: pointer;
       margin-top: 5px;
     }
-    
-    /* --- Toast (Popup) --- */
+
+    /* Toast popup de 2s */
     #toast {
       position: fixed;
       top: 15px;
@@ -85,11 +94,9 @@
       transition: opacity 0.3s;
       z-index: 9999;
     }
-    #toast.show {
-      opacity: 1;
-    }
-    
-    /* --- Carrinho e Dados do Cliente --- */
+    #toast.show { opacity: 1; }
+
+    /* Carrinho e Dados do Cliente: layout em 2 colunas centralizado */
     .cart-container {
       display: flex;
       flex-wrap: wrap;
@@ -118,8 +125,8 @@
       margin-bottom: 5px;
     }
     .order-item .item-name {
-      /* Limita a 16 caracteres e adiciona reticências se ultrapassar */
-      max-width: 120px;
+      /* Permite até 21 caracteres; se ultrapassar, exibe reticências */
+      max-width: 150px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -128,13 +135,20 @@
       min-width: 70px;
       text-align: right;
     }
+    .order-item button {
+      background: none;
+      border: none;
+      color: red;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
     /* Total do carrinho */
     .cart-total {
       margin-top: 10px;
       font-weight: 700;
       text-align: right;
     }
-    /* Formulário do cliente */
+    /* Formulário do Cliente */
     .customer-box label {
       display: block;
       margin-bottom: 3px;
@@ -169,10 +183,10 @@
       text-decoration: none;
       display: inline-block;
     }
-    
-    /* --- Espaçamento antes do Rodapé --- */
+
+    /* Espaçamento extra antes do rodapé */
     main.container {
-      margin-bottom: 0; /* Remove linhas extras antes do rodapé */
+      margin-bottom: 40px;
     }
   </style>
 </head>
@@ -193,7 +207,7 @@
       </ul>
     </div>
   </nav>
-  
+
   <!-- Toast popup -->
   <div id="toast"></div>
 
@@ -207,7 +221,7 @@
         <div class="item">
           <h3>Sopa de Legumes</h3>
           <div class="ementa-card">
-            <img src="./imagens/sopa_legumes.jpg" alt="Sopa de Legumes">
+            <img src="./imagens/sopa legumes.jpg" alt="Sopa de Legumes">
             <p class="description">Reconfortante e nutritiva feita com legumes frescos.</p>
           </div>
           <div class="order-controls">
@@ -243,7 +257,7 @@
         <div class="item">
           <h3>Maçã assada</h3>
           <div class="ementa-card">
-            <img src="./imagens/maca_assada.jpg" alt="Maçã Assada">
+            <img src="./imagens/maca assada.jpg" alt="Maçã Assada">
             <p class="description">Simples e saborosa para finalizar a refeição.</p>
           </div>
           <div class="order-controls">
@@ -347,10 +361,10 @@
 
   <script src="js/main.js"></script>
   <script>
-    // Array que armazena os itens do pedido
+    // Array para armazenar os itens do pedido
     let pedido = [];
 
-    // Exibe o toast (popup) por 2 segundos
+    // Exibe um toast (popup) por 2 segundos
     function showToast(mensagem) {
       const toast = document.getElementById('toast');
       toast.textContent = mensagem;
@@ -360,7 +374,7 @@
       }, 2000);
     }
 
-    // Função para adicionar item ao carrinho
+    // Adiciona item ao carrinho
     function adicionarItem(id, nome, preco) {
       const itemExistente = pedido.find(item => item.id === id);
       if (itemExistente) {
@@ -372,7 +386,7 @@
       showToast(`Foi adicionado: ${nome}`);
     }
 
-    // Função para remover item do carrinho
+    // Remove item do carrinho
     function removerItem(id) {
       pedido = pedido.filter(item => item.id !== id);
       atualizarResumo();
@@ -395,8 +409,8 @@
         const subtotal = item.preco * item.quantidade;
         total += subtotal;
         let displayName = item.nome;
-        if (displayName.length > 16) {
-          displayName = displayName.substring(0, 16) + '...';
+        if (displayName.length > 21) {
+          displayName = displayName.substring(0, 21) + '...';
         }
         const div = document.createElement('div');
         div.className = 'order-item';
@@ -416,7 +430,6 @@
         alert('Nenhum item foi selecionado!');
         return;
       }
-      // Verifica se os campos obrigatórios estão preenchidos
       const nome = document.getElementById('nome').value.trim();
       const contribuinte = document.getElementById('contribuinte').value.trim();
       const telefone = document.getElementById('telefone').value.trim();
@@ -424,7 +437,6 @@
         alert('Por favor, preencha todos os campos obrigatórios.');
         return;
       }
-
       let mensagem = 'Pedido:%0A';
       let total = 0;
       pedido.forEach(item => {
@@ -439,7 +451,6 @@
       mensagem += `Contribuinte: ${contribuinte}%0A`;
       mensagem += `Telefone: ${telefone}`;
 
-      // Número do WhatsApp com código internacional (351 para Portugal)
       const numeroWhats = '351932902550';
       const url = 'https://wa.me/' + numeroWhats + '?text=' + mensagem;
       window.open(url, '_blank');
