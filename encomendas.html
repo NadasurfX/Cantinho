@@ -8,73 +8,68 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
-  <!-- Estilos específicos para os controles e centralização da seção de pastelaria -->
   <style>
-    .quantity-control {
+    /* Estilos adicionais para a página de Encomendas */
+
+    /* Estilo do botão de adicionar e controles do item */
+    .order-controls {
       display: flex;
       align-items: center;
-      gap: 5px;
-      margin-top: 5px;
+      justify-content: space-between;
+      width: 100%;
+      margin-top: 10px;
     }
-    .quantity-control button {
-      width: 30px;
-      height: 30px;
-      border: 1px solid #ccc;
-      background-color: #f0f0f0;
-      cursor: pointer;
-    }
-    .quantity-control input {
-      width: 50px;
-      text-align: center;
-      padding: 5px;
-    }
-    .encomendas-form .item {
-      margin-bottom: 15px;
-    }
-    /* Centraliza a seleção dinâmica da pastelaria */
-    .pastelaria-selection {
-      margin-bottom: 15px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .pastelaria-selection select {
-      padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-    .pastelaria-selection button {
-      padding: 8px 12px;
+    .order-controls button {
+      padding: 5px 10px;
       background-color: #28a745;
       border: none;
       color: #fff;
       border-radius: 4px;
       cursor: pointer;
-      margin-left: 5px;
     }
-    .pastelaria-list {
-      margin-top: 10px;
+    /* Força o título dos pratos a ocupar duas linhas, se necessário */
+    .item h3 {
+      min-height: 2.8em; /* ajuste conforme necessário */
       text-align: center;
+      overflow-wrap: break-word;
     }
-    .pastelaria-item {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background-color: #f0f0f0;
-      padding: 5px 10px;
+    /* Resumo do Pedido */
+    #order-summary {
+      margin: 20px 0;
+      border: 1px solid #ccc;
+      padding: 15px;
       border-radius: 4px;
+      background-color: #f9f9f9;
+    }
+    #order-summary h2 {
+      margin-bottom: 10px;
+    }
+    .order-item {
+      display: flex;
+      justify-content: space-between;
       margin-bottom: 5px;
-      gap: 10px;
     }
-    .pastelaria-item span {
-      flex-grow: 1;
+    .order-item span {
+      margin-right: 10px;
     }
-    .pastelaria-item button {
-      background: none;
+    /* Estilos para o formulário de dados do cliente */
+    .order-form input {
+      width: 100%;
+      padding: 8px;
+      margin: 5px 0 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .order-form label {
+      font-weight: 600;
+    }
+    .order-form button {
+      padding: 10px 20px;
+      background-color: #28a745;
       border: none;
-      color: #d00;
+      color: #fff;
+      border-radius: 4px;
       cursor: pointer;
-      font-size: 1rem;
     }
   </style>
 </head>
@@ -95,170 +90,226 @@
       </ul>
     </div>
   </nav>
-  
+
+  <!-- Header -->
+  <header class="header">
+    <div class="hero-content">
+      <h1>Faça sua Encomenda</h1>
+      <p>Selecione os itens e finalize seu pedido via WhatsApp</p>
+    </div>
+  </header>
+
   <main class="container">
-    <h1>Encomendas</h1>
-    <div class="encomendas-form">
-      <h2>Monte seu Pedido</h2>
-      
-      <!-- Itens de refeições -->
-      <div class="item">
-        <label for="sopa">Sopa de Legumes:</label>
-        <div class="quantity-control">
-          <button type="button" onclick="decrement('sopa')">–</button>
-          <input type="number" id="sopa" value="0" min="0">
-          <button type="button" onclick="increment('sopa')">+</button>
+    <!-- Seção Ementa -->
+    <section class="ementa">
+      <h2 class="ementa-title">Ementa do dia</h2>
+      <p class="ementa-subtitle">08/04/2025</p>
+      <div class="ementa-grid">
+        <!-- Item: Sopa de Legumes -->
+        <div class="item">
+          <h3>Sopa de Legumes</h3>
+          <div class="ementa-card">
+            <img src="./imagens/sopa_legumes.jpg" alt="Sopa de Legumes">
+            <p class="description">Reconfortante e nutritiva feita com legumes frescos.</p>
+          </div>
+          <div class="order-controls">
+            <button type="button" onclick="adicionarItem('sopa', 'Sopa de Legumes', 3.00)">Adicionar</button>
+            <p class="price">€3.00</p>
+          </div>
+        </div>
+        <!-- Item: Bacalhau c/ grão de bico -->
+        <div class="item">
+          <h3>Bacalhau c/ grão de bico</h3>
+          <div class="ementa-card">
+            <img src="./imagens/bacalhau-com-natas.jpg" alt="Bacalhau">
+            <p class="description">Delicioso bacalhau com grão de bico, batata e ovo cozido.</p>
+          </div>
+          <div class="order-controls">
+            <button type="button" onclick="adicionarItem('bacalhau', 'Bacalhau c/ grão de bico', 10.50)">Adicionar</button>
+            <p class="price">€10.50</p>
+          </div>
+        </div>
+        <!-- Item: Carne de Porco à Alentejana -->
+        <div class="item">
+          <h3>Carne de Porco à Alentejana</h3>
+          <div class="ementa-card">
+            <img src="./imagens/rojoes.jpg" alt="Carne de Porco">
+            <p class="description">Saboroso e temperado à moda alentejana.</p>
+          </div>
+          <div class="order-controls">
+            <button type="button" onclick="adicionarItem('carne', 'Carne de Porco à Alentejana', 8.50)">Adicionar</button>
+            <p class="price">€8.50</p>
+          </div>
+        </div>
+        <!-- Item: Maçã assada -->
+        <div class="item">
+          <h3>Maçã assada</h3>
+          <div class="ementa-card">
+            <img src="./imagens/fatiaamendocafe.jpg" alt="Maçã Assada">
+            <p class="description">Simples e saborosa para finalizar a refeição.</p>
+          </div>
+          <div class="order-controls">
+            <button type="button" onclick="adicionarItem('maca', 'Maçã assada', 2.50)">Adicionar</button>
+            <p class="price">€2.50</p>
+          </div>
         </div>
       </div>
-      
-      <div class="item">
-        <label for="bacalhau">Bacalhau c/ grão de bico:</label>
-        <div class="quantity-control">
-          <button type="button" onclick="decrement('bacalhau')">–</button>
-          <input type="number" id="bacalhau" value="0" min="0">
-          <button type="button" onclick="increment('bacalhau')">+</button>
+    </section>
+
+    <!-- Seção Pastelaria -->
+    <section class="ementa">
+      <h2 class="ementa-title">Pastelaria</h2>
+      <p class="ementa-subtitle">08/04/2025</p>
+      <div class="ementa-grid">
+        <!-- Item: Fatia de café -->
+        <div class="item">
+          <h3>Fatia de café</h3>
+          <div class="ementa-card pastelaria">
+            <img src="./imagens/fatiaamendocafe.jpg" alt="Fatia de café">
+            <p class="description">Delícia para os apreciadores de café.</p>
+          </div>
+          <div class="order-controls">
+            <button type="button" onclick="adicionarItem('cafe', 'Fatia de café', 1.20)">Adicionar</button>
+            <p class="price">€1.20</p>
+          </div>
+        </div>
+        <!-- Item: Fatia de bolo de chocolate -->
+        <div class="item">
+          <h3>Fatia de bolo de chocolate</h3>
+          <div class="ementa-card pastelaria">
+            <img src="./imagens/fatiachocolate.jpg" alt="Fatia de bolo de chocolate">
+            <p class="description">3 tipos de chocolate.</p>
+          </div>
+          <div class="order-controls">
+            <button type="button" onclick="adicionarItem('chocolate', 'Fatia de bolo de chocolate', 1.80)">Adicionar</button>
+            <p class="price">€1.80</p>
+          </div>
+        </div>
+        <!-- Item: Donut -->
+        <div class="item">
+          <h3>Donut</h3>
+          <div class="ementa-card pastelaria">
+            <img src="./imagens/donut.jpg" alt="Donut">
+            <p class="description">Saboroso e com açúcar.</p>
+          </div>
+          <div class="order-controls">
+            <button type="button" onclick="adicionarItem('donut', 'Donut', 1.00)">Adicionar</button>
+            <p class="price">€1.00</p>
+          </div>
+        </div>
+        <!-- Item: Eclair -->
+        <div class="item">
+          <h3>Eclair</h3>
+          <div class="ementa-card pastelaria">
+            <img src="./imagens/eclair.jpg" alt="Eclair">
+            <p class="description">Simples e tradicional.</p>
+          </div>
+          <div class="order-controls">
+            <button type="button" onclick="adicionarItem('eclair', 'Eclair', 1.10)">Adicionar</button>
+            <p class="price">€1.10</p>
+          </div>
         </div>
       </div>
-      
-      <div class="item">
-        <label for="carne">Carne de Porco à Alentejana:</label>
-        <div class="quantity-control">
-          <button type="button" onclick="decrement('carne')">–</button>
-          <input type="number" id="carne" value="0" min="0">
-          <button type="button" onclick="increment('carne')">+</button>
-        </div>
+    </section>
+
+    <!-- Resumo do Pedido -->
+    <section id="order-summary">
+      <h2>Resumo do Pedido</h2>
+      <div id="order-items">
+        <p>Nenhum item selecionado.</p>
       </div>
-      
-      <div class="item">
-        <label for="bolo">Fatia de Bolo:</label>
-        <div class="quantity-control">
-          <button type="button" onclick="decrement('bolo')">–</button>
-          <input type="number" id="bolo" value="0" min="0">
-          <button type="button" onclick="increment('bolo')">+</button>
-        </div>
-      </div>
-      
-      <!-- Seção de Pastelaria com dropdown e adição dinâmica -->
-      <h2>Selecione Pastelaria</h2>
-      <div class="pastelaria-selection">
-        <select id="pastelaria-select">
-          <option value="">Selecione um item</option>
-          <option value="Fatia de café">Fatia de café</option>
-          <option value="Fatia de bolo de chocolate">Fatia de bolo de chocolate</option>
-          <option value="Donut">Donut</option>
-          <option value="Eclair">Eclair</option>
-        </select>
-        <button type="button" onclick="adicionarPastelaria()">Adicionar</button>
-      </div>
-      <div class="pastelaria-list" id="pastelaria-list">
-        <!-- Os itens selecionados serão adicionados aqui -->
-      </div>
-      
-      <!-- Dados do Cliente -->
+    </section>
+
+    <!-- Dados do Cliente -->
+    <section class="order-form">
+      <h2>Dados do Cliente</h2>
       <div class="item">
         <label for="nome">Nome:</label>
-        <input type="text" id="nome" placeholder="Seu Nome">
+        <input type="text" id="nome" placeholder="Seu Nome" required>
       </div>
       <div class="item">
         <label for="contribuinte">Contribuinte:</label>
-        <input type="text" id="contribuinte" placeholder="Nº Contribuinte">
+        <input type="text" id="contribuinte" placeholder="Nº Contribuinte" required>
       </div>
       <div class="item">
         <label for="telefone">Telefone:</label>
-        <input type="text" id="telefone" placeholder="Seu Telefone">
+        <input type="text" id="telefone" placeholder="Seu Telefone" required>
       </div>
-      
       <button onclick="finalizarPedido()">Finalizar Pedido via WhatsApp</button>
-    </div>
+    </section>
   </main>
-  
+
+  <!-- Rodapé -->
   <footer class="footer container">
     <p>&copy; 2025 Cantinho da Avó. Todos os direitos reservados.</p>
   </footer>
-  
+
   <script src="js/main.js"></script>
   <script>
-    // Funções para incrementar e decrementar os valores dos itens
-    function increment(id) {
-      const input = document.getElementById(id);
-      input.value = parseInt(input.value) + 1;
-    }
-    
-    function decrement(id) {
-      const input = document.getElementById(id);
-      if (parseInt(input.value) > 0) {
-        input.value = parseInt(input.value) - 1;
+    // Array para armazenar o pedido
+    let pedido = [];
+
+    // Função para adicionar item ao pedido
+    function adicionarItem(id, nome, preco) {
+      // Procura o item no pedido
+      let itemExistente = pedido.find(item => item.id === id);
+      if (itemExistente) {
+        itemExistente.quantidade++;
+      } else {
+        pedido.push({ id, nome, preco, quantidade: 1 });
       }
+      atualizarResumo();
     }
-    
-    // Função para adicionar um item de pastelaria à lista
-    function adicionarPastelaria() {
-      const select = document.getElementById('pastelaria-select');
-      const valor = select.value;
-      if (valor === "") return; // Não adiciona se nenhuma opção for selecionada
-      
-      const lista = document.getElementById('pastelaria-list');
-      const divItem = document.createElement('div');
-      divItem.className = 'pastelaria-item';
-      
-      const span = document.createElement('span');
-      span.innerText = valor;
-      
-      const btnRemover = document.createElement('button');
-      btnRemover.innerText = 'X';
-      btnRemover.onclick = function() {
-        lista.removeChild(divItem);
-      };
-      
-      divItem.appendChild(span);
-      divItem.appendChild(btnRemover);
-      lista.appendChild(divItem);
-      
-      // Reseta o dropdown para a opção padrão
-      select.value = "";
+
+    // Função para remover item do pedido
+    function removerItem(id) {
+      pedido = pedido.filter(item => item.id !== id);
+      atualizarResumo();
     }
-    
-    // Função para montar a mensagem do pedido e redirecionar para o WhatsApp
+
+    // Atualiza o resumo do pedido
+    function atualizarResumo() {
+      const container = document.getElementById('order-items');
+      container.innerHTML = '';
+      if (pedido.length === 0) {
+        container.innerHTML = '<p>Nenhum item selecionado.</p>';
+        return;
+      }
+      pedido.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'order-item';
+        div.innerHTML = `<span>${item.nome} x${item.quantidade}</span><span>€${(item.preco * item.quantidade).toFixed(2)}</span> <button onclick="removerItem('${item.id}')">Remover</button>`;
+        container.appendChild(div);
+      });
+    }
+
+    // Função para finalizar o pedido
     function finalizarPedido() {
-      const sopa = document.getElementById('sopa').value;
-      const bacalhau = document.getElementById('bacalhau').value;
-      const carne = document.getElementById('carne').value;
-      const bolo = document.getElementById('bolo').value;
-      
-      const nome = document.getElementById('nome').value || '[Nome]';
-      const contribuinte = document.getElementById('contribuinte').value || '[Contribuinte]';
-      const telefone = document.getElementById('telefone').value || '[Telefone]';
+      // Verifica se há itens selecionados
+      if (pedido.length === 0) {
+        alert('Nenhum item foi selecionado!');
+        return;
+      }
+      // Verifica se os campos obrigatórios estão preenchidos
+      const nome = document.getElementById('nome').value.trim();
+      const contribuinte = document.getElementById('contribuinte').value.trim();
+      const telefone = document.getElementById('telefone').value.trim();
+      if (!nome || !contribuinte || !telefone) {
+        alert('Por favor, preencha todos os campos obrigatórios.');
+        return;
+      }
       
       let mensagem = 'Pedido:%0A';
-      if(sopa > 0){
-        mensagem += '- Sopa de Legumes x' + sopa + '%0A';
-      }
-      if(bacalhau > 0){
-        mensagem += '- Bacalhau c/ grão de bico x' + bacalhau + '%0A';
-      }
-      if(carne > 0){
-        mensagem += '- Carne de Porco à Alentejana x' + carne + '%0A';
-      }
-      if(bolo > 0){
-        mensagem += '- Fatia de Bolo x' + bolo + '%0A';
-      }
-      
-      // Inclui os itens de pastelaria, se houver
-      const pastelariaItems = document.querySelectorAll('.pastelaria-item span');
-      if(pastelariaItems.length > 0) {
-        mensagem += 'Pastelaria:%0A';
-        pastelariaItems.forEach(function(item) {
-          mensagem += '- ' + item.innerText + '%0A';
-        });
-      }
-      
+      pedido.forEach(item => {
+        mensagem += `- ${item.nome} x${item.quantidade} - €${(item.preco * item.quantidade).toFixed(2)}%0A`;
+      });
       mensagem += '%0APagamento na entrega.%0A';
       mensagem += '%0ADados do Cliente:%0A';
-      mensagem += 'Nome: ' + nome + '%0A';
-      mensagem += 'Contribuinte: ' + contribuinte + '%0A';
-      mensagem += 'Telefone: ' + telefone;
+      mensagem += `Nome: ${nome}%0A`;
+      mensagem += `Contribuinte: ${contribuinte}%0A`;
+      mensagem += `Telefone: ${telefone}`;
       
-      // Número do WhatsApp do estabelecimento com código internacional (351 para Portugal)
+      // Número do WhatsApp com código internacional (351 para Portugal)
       const numeroWhats = '351932902550';
       const url = 'https://wa.me/' + numeroWhats + '?text=' + mensagem;
       window.open(url, '_blank');
@@ -275,4 +326,3 @@
   </script>
 </body>
 </html>
-
