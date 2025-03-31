@@ -3,13 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Cantinho da Avó</title>
-  <!-- Fonte -->
+  <title>Ementa Semanal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet">
   <style>
-    /* RESET */
+    /* RESET BÁSICO */
     * {
       margin: 0;
       padding: 0;
@@ -20,247 +19,178 @@
       background-color: #fff;
       color: #333;
       line-height: 1.6;
+      padding: 20px;
     }
+
+    h1, h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    /* CONTAINER */
     .container {
-      width: 90%;
       max-width: 1200px;
       margin: 0 auto;
-      padding: 20px 0;
     }
-    
-    /* Cabeçalho e Navegação */
-    header.header {
-      background: url("./imagens/cantinho.jpg") no-repeat center/cover;
-      height: 400px;
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      color: #fff;
-    }
-    .hero-content h1 {
-      font-size: 2.5rem;
-      margin-bottom: 10px;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-    }
-    .hero-content p {
-      font-size: 1.2rem;
-      margin-bottom: 20px;
-      text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-    }
-    .nav {
-      background-color: rgba(255,255,255,0.95);
-      padding: 10px 0;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-    .nav .container {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .logo {
-      font-weight: 700;
-      font-size: 1.5rem;
-      color: #333;
-    }
-    .menu-links {
-      list-style: none;
-      display: flex;
-      gap: 15px;
-    }
-    .menu-links li a {
-      text-decoration: none;
-      color: #333;
-      font-weight: 500;
-    }
-    .menu-links li a:hover {
-      color: #28a745;
-    }
-    
-    /* Seção Ementa Semanal */
+
+    /* TÍTULO DA SEÇÃO */
     .section-title {
       font-size: 2rem;
       font-weight: 700;
       margin-bottom: 20px;
       text-align: center;
     }
-    
-    .table-responsive {
-      overflow-x: auto;
-    }
-    
-    /* Tabela para telas grandes */
+
+    /* TABELA - ECRÃS GRANDES (>= 769px) */
     @media (min-width: 769px) {
       .menu-table {
         width: 100%;
         border-collapse: collapse;
         margin-bottom: 20px;
       }
-      /* Cabeçalho com dois níveis */
-      .large-screen {
-        display: table-header-group;
-      }
-      .menu-table th,
-      .menu-table td {
-        padding: 10px;
-        border: 1px solid #ddd;
-        text-align: left;
-        vertical-align: top;
-      }
-      .menu-table thead th {
+      .menu-table thead {
         background-color: #28a745;
         color: #fff;
-        font-size: 1.1rem;
+      }
+      .menu-table thead th {
+        padding: 10px;
+        font-size: 1rem;
+      }
+      .menu-table tbody td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        vertical-align: top;
+      }
+      .menu-table tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+      }
+      .menu-table th, .menu-table td {
+        text-align: left;
       }
     }
-    
-    /* Tabela para telas pequenas */
+
+    /* TABELA - ECRÃS PEQUENOS (<= 768px) */
     @media (max-width: 768px) {
-      .large-screen {
+      /* Esconde o cabeçalho tradicional */
+      .menu-table thead {
         display: none;
-      }
-      .small-screen {
-        display: table-header-group;
       }
       .menu-table, .menu-table tbody, .menu-table tr, .menu-table td {
         display: block;
         width: 100%;
       }
       .menu-table tr {
-        margin-bottom: 15px;
+        margin-bottom: 20px;
+        border: 2px solid #28a745;  /* Borda verde ao redor de cada dia */
+        border-radius: 6px;
+        padding: 10px;
       }
       .menu-table td {
-        text-align: right;
-        padding-left: 50%;
         position: relative;
-        border: 1px solid #ddd;
+        padding: 10px 10px 10px 40%;
+        border: none; /* Remove bordas internas */
       }
       .menu-table td::before {
         content: attr(data-label);
         position: absolute;
         left: 10px;
-        width: 45%;
-        padding-right: 10px;
-        text-align: left;
         font-weight: 700;
+        color: #28a745;
       }
-      /* Borda verde grossa para o dia */
-      .menu-table td.day-col {
-        border: 3px solid green;
+      /* Ajusta espaçamento entre células */
+      .menu-table td:not(:last-child) {
+        margin-bottom: 5px;
       }
     }
+
+    /* OPÇÃO: estilo para "Dia" se quiser destacar ainda mais */
+    .day-col {
+      font-weight: 700;
+    }
+
   </style>
 </head>
 <body>
-  <!-- Cabeçalho com Navegação -->
-  <header class="header">
-    <nav class="nav container">
-      <div class="logo">Cantinho da Avó</div>
-      <ul class="menu-links">
-        <li><a href="#inicio">Início</a></li>
-        <li><a href="#ementa-semanal">Ementa do Dia</a></li>
-        <li><a href="#contatos">Contatos</a></li>
-      </ul>
-    </nav>
-    <div class="hero-content">
-      <h1>Comida caseira todos os dias!</h1>
-      <p>Sabores tradicionais</p>
-    </div>
-  </header>
-  
-  <!-- Ementa Semanal -->
-  <section id="ementa-semanal" class="container">
-    <h2 class="section-title">Ementa Semanal (20 a 25 de Janeiro)</h2>
-    <div class="table-responsive">
-      <table class="menu-table">
-        <!-- Cabeçalho para telas grandes -->
-        <thead class="large-screen">
-          <tr>
-            <th rowspan="2" class="day-col">Dia</th>
-            <th rowspan="2">Sopa</th>
-            <th colspan="2">Prato 1</th>
-            <th colspan="2">Prato 2</th>
-            <th rowspan="2">Sobremesa</th>
-          </tr>
-          <tr>
-            <th>Prato</th>
-            <th>Preço</th>
-            <th>Prato</th>
-            <th>Preço</th>
-          </tr>
-        </thead>
-        <!-- Cabeçalho para telas pequenas -->
-        <thead class="small-screen">
-          <tr>
-            <th class="day-col">Dia</th>
-            <th>Sopa</th>
-            <th>Prato 1</th>
-            <th>Prato 2</th>
-            <th>Sobremesa</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="day-col" data-label="Dia">Segunda</td>
-            <td data-label="Sopa">Legumes</td>
-            <td data-label="Prato 1">Bacalhau c/ grão de bico, batata e ovo cozido</td>
-            <td data-label="Preço">10.50€</td>
-            <td data-label="Prato 2">Carne de Porco à Alentejana</td>
-            <td data-label="Preço">8.50€</td>
-            <td data-label="Sobremesa">Maçã Assada</td>
-          </tr>
-          <tr>
-            <td class="day-col" data-label="Dia">Terça</td>
-            <td data-label="Sopa">Legumes</td>
-            <td data-label="Prato 1">Panado de Frango c/ Arroz de Feijão</td>
-            <td data-label="Preço">8.50€</td>
-            <td data-label="Prato 2">Empadão de Carne</td>
-            <td data-label="Preço">8.50€</td>
-            <td data-label="Sobremesa">Salada de Fruta</td>
-          </tr>
-          <tr>
-            <td class="day-col" data-label="Dia">Quarta</td>
-            <td data-label="Sopa">Legumes</td>
-            <td data-label="Prato 1">Rojões c/ Batata Cozida</td>
-            <td data-label="Preço">10.50€</td>
-            <td data-label="Prato 2">Bacalhau c/ Batatas</td>
-            <td data-label="Preço">8.50€</td>
-            <td data-label="Sobremesa">Gelatina</td>
-          </tr>
-          <tr>
-            <td class="day-col" data-label="Dia">Quinta</td>
-            <td data-label="Sopa">Legumes</td>
-            <td data-label="Prato 1">Feijoada à Transmontana</td>
-            <td data-label="Preço">8.50€</td>
-            <td data-label="Prato 2">Ossobuco c/ Puré</td>
-            <td data-label="Preço">10.50€</td>
-            <td data-label="Sobremesa">Fruta da Época</td>
-          </tr>
-          <tr>
-            <td class="day-col" data-label="Dia">Sexta</td>
-            <td data-label="Sopa">Legumes</td>
-            <td data-label="Prato 1">Arroz à Valenciana</td>
-            <td data-label="Preço">8.50€</td>
-            <td data-label="Prato 2">Escalopes de Porco c/ Batata e Arroz</td>
-            <td data-label="Preço">8.50€</td>
-            <td data-label="Sobremesa">Pudim</td>
-          </tr>
-          <tr>
-            <td class="day-col" data-label="Dia">Sábado</td>
-            <td data-label="Sopa">Legumes</td>
-            <td data-label="Prato 1">Frango no Churrasco c/ Batata Frita e Arroz</td>
-            <td data-label="Preço">9.50€</td>
-            <td data-label="Prato 2">-</td>
-            <td data-label="Preço"></td>
-            <td data-label="Sobremesa">Fruta da Época</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
+  <h1>Ementa Semanal</h1>
+  <div class="container">
+    <h2 class="section-title">20 a 25 de Janeiro</h2>
+    
+    <table class="menu-table">
+      <thead>
+        <tr>
+          <th>Dia</th>
+          <th>Sopa</th>
+          <th>Prato 1</th>
+          <th>Preço</th>
+          <th>Prato 2</th>
+          <th>Preço</th>
+          <th>Sobremesa</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- SEGUNDA -->
+        <tr>
+          <td class="day-col" data-label="Dia">Segunda</td>
+          <td data-label="Sopa">Legumes</td>
+          <td data-label="Prato 1">Bacalhau c/ grão de bico, batata e ovo cozido</td>
+          <td data-label="Preço">10.50€</td>
+          <td data-label="Prato 2">Carne de Porco à Alentejana</td>
+          <td data-label="Preço">8.50€</td>
+          <td data-label="Sobremesa">Maçã Assada</td>
+        </tr>
+        <!-- TERÇA -->
+        <tr>
+          <td class="day-col" data-label="Dia">Terça</td>
+          <td data-label="Sopa">Legumes</td>
+          <td data-label="Prato 1">Panado de Frango c/ Arroz de Feijão</td>
+          <td data-label="Preço">8.50€</td>
+          <td data-label="Prato 2">Empadão de Carne</td>
+          <td data-label="Preço">8.50€</td>
+          <td data-label="Sobremesa">Salada de Fruta</td>
+        </tr>
+        <!-- QUARTA -->
+        <tr>
+          <td class="day-col" data-label="Dia">Quarta</td>
+          <td data-label="Sopa">Legumes</td>
+          <td data-label="Prato 1">Rojões c/ Batata Cozida</td>
+          <td data-label="Preço">10.50€</td>
+          <td data-label="Prato 2">Bacalhau c/ Batatas</td>
+          <td data-label="Preço">8.50€</td>
+          <td data-label="Sobremesa">Gelatina</td>
+        </tr>
+        <!-- QUINTA -->
+        <tr>
+          <td class="day-col" data-label="Dia">Quinta</td>
+          <td data-label="Sopa">Legumes</td>
+          <td data-label="Prato 1">Feijoada à Transmontana</td>
+          <td data-label="Preço">8.50€</td>
+          <td data-label="Prato 2">Ossobuco c/ Puré</td>
+          <td data-label="Preço">10.50€</td>
+          <td data-label="Sobremesa">Fruta da Época</td>
+        </tr>
+        <!-- SEXTA -->
+        <tr>
+          <td class="day-col" data-label="Dia">Sexta</td>
+          <td data-label="Sopa">Legumes</td>
+          <td data-label="Prato 1">Arroz à Valenciana</td>
+          <td data-label="Preço">8.50€</td>
+          <td data-label="Prato 2">Escalopes de Porco c/ Batata e Arroz</td>
+          <td data-label="Preço">8.50€</td>
+          <td data-label="Sobremesa">Pudim</td>
+        </tr>
+        <!-- SÁBADO -->
+        <tr>
+          <td class="day-col" data-label="Dia">Sábado</td>
+          <td data-label="Sopa">Legumes</td>
+          <td data-label="Prato 1">Frango no Churrasco c/ Batata Frita e Arroz</td>
+          <td data-label="Preço">9.50€</td>
+          <td data-label="Prato 2">-</td>
+          <td data-label="Preço"></td>
+          <td data-label="Sobremesa">Fruta da Época</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </body>
 </html>
 
