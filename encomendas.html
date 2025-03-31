@@ -8,8 +8,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
-  <!-- Estilos específicos para os controles de quantidade -->
   <style>
+    /* Estilos para os controles de quantidade já existentes */
     .quantity-control {
       display: flex;
       align-items: center;
@@ -30,6 +30,46 @@
     }
     .encomendas-form .item {
       margin-bottom: 15px;
+    }
+    /* Estilos para a seção de Pastelaria dinâmica */
+    .pastelaria-selection {
+      margin-bottom: 15px;
+    }
+    .pastelaria-selection select {
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .pastelaria-selection button {
+      padding: 8px 12px;
+      background-color: #28a745;
+      border: none;
+      color: #fff;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-left: 5px;
+    }
+    .pastelaria-list {
+      margin-top: 10px;
+    }
+    .pastelaria-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: #f0f0f0;
+      padding: 5px 10px;
+      border-radius: 4px;
+      margin-bottom: 5px;
+    }
+    .pastelaria-item span {
+      flex-grow: 1;
+    }
+    .pastelaria-item button {
+      background: none;
+      border: none;
+      color: #d00;
+      cursor: pointer;
+      font-size: 1rem;
     }
   </style>
 </head>
@@ -56,7 +96,7 @@
     <div class="encomendas-form">
       <h2>Monte seu Pedido</h2>
       
-      <!-- Item: Sopa de Legumes -->
+      <!-- Itens de refeições -->
       <div class="item">
         <label for="sopa">Sopa de Legumes:</label>
         <div class="quantity-control">
@@ -66,7 +106,6 @@
         </div>
       </div>
       
-      <!-- Item: Bacalhau c/ grão de bico -->
       <div class="item">
         <label for="bacalhau">Bacalhau c/ grão de bico:</label>
         <div class="quantity-control">
@@ -76,7 +115,6 @@
         </div>
       </div>
       
-      <!-- Item: Carne de Porco à Alentejana -->
       <div class="item">
         <label for="carne">Carne de Porco à Alentejana:</label>
         <div class="quantity-control">
@@ -86,7 +124,6 @@
         </div>
       </div>
       
-      <!-- Item: Fatia de Bolo -->
       <div class="item">
         <label for="bolo">Fatia de Bolo:</label>
         <div class="quantity-control">
@@ -94,6 +131,22 @@
           <input type="number" id="bolo" value="0" min="0">
           <button type="button" onclick="increment('bolo')">+</button>
         </div>
+      </div>
+      
+      <!-- Seção de Pastelaria com dropdown e adição dinâmica -->
+      <h2>Selecione Pastelaria</h2>
+      <div class="pastelaria-selection">
+        <select id="pastelaria-select">
+          <option value="">Selecione um item</option>
+          <option value="Fatia de café">Fatia de café</option>
+          <option value="Fatia de bolo de chocolate">Fatia de bolo de chocolate</option>
+          <option value="Donut">Donut</option>
+          <option value="Eclair">Eclair</option>
+        </select>
+        <button type="button" onclick="adicionarPastelaria()">Adicionar</button>
+      </div>
+      <div class="pastelaria-list" id="pastelaria-list">
+        <!-- Os itens selecionados serão adicionados aqui -->
       </div>
       
       <!-- Dados do Cliente -->
@@ -118,10 +171,9 @@
     <p>&copy; 2025 Cantinho da Avó. Todos os direitos reservados.</p>
   </footer>
   
-  <!-- Script externo (js/main.js) é incluído, mas também insiro os scripts necessários aqui -->
   <script src="js/main.js"></script>
   <script>
-    // Funções para incrementar e decrementar os valores
+    // Funções para incrementar e decrementar os valores dos itens
     function increment(id) {
       const input = document.getElementById(id);
       input.value = parseInt(input.value) + 1;
@@ -132,6 +184,33 @@
       if (parseInt(input.value) > 0) {
         input.value = parseInt(input.value) - 1;
       }
+    }
+    
+    // Função para adicionar um item de pastelaria à lista
+    function adicionarPastelaria() {
+      const select = document.getElementById('pastelaria-select');
+      const valor = select.value;
+      if (valor === "") return; // Não adiciona se nenhuma opção for selecionada
+      
+      const lista = document.getElementById('pastelaria-list');
+      const divItem = document.createElement('div');
+      divItem.className = 'pastelaria-item';
+      
+      const span = document.createElement('span');
+      span.innerText = valor;
+      
+      const btnRemover = document.createElement('button');
+      btnRemover.innerText = 'X';
+      btnRemover.onclick = function() {
+        lista.removeChild(divItem);
+      };
+      
+      divItem.appendChild(span);
+      divItem.appendChild(btnRemover);
+      lista.appendChild(divItem);
+      
+      // Reseta o dropdown para a opção padrão
+      select.value = "";
     }
     
     // Função para montar a mensagem do pedido e redirecionar para o WhatsApp
@@ -159,13 +238,22 @@
         mensagem += '- Fatia de Bolo x' + bolo + '%0A';
       }
       
+      // Inclui os itens de pastelaria, se houver
+      const pastelariaItems = document.querySelectorAll('.pastelaria-item span');
+      if(pastelariaItems.length > 0) {
+        mensagem += 'Pastelaria:%0A';
+        pastelariaItems.forEach(function(item) {
+          mensagem += '- ' + item.innerText + '%0A';
+        });
+      }
+      
       mensagem += '%0APagamento na entrega.%0A';
       mensagem += '%0ADados do Cliente:%0A';
       mensagem += 'Nome: ' + nome + '%0A';
       mensagem += 'Contribuinte: ' + contribuinte + '%0A';
       mensagem += 'Telefone: ' + telefone;
       
-      // Número do WhatsApp do estabelecimento (incluir código do país, por exemplo, 55 para Brasil)
+      // Número do WhatsApp (incluir código do país, ex.: 55 para Brasil)
       const numeroWhats = '5511999999999'; // Altere para o seu número
       const url = 'https://wa.me/' + numeroWhats + '?text=' + mensagem;
       window.open(url, '_blank');
@@ -182,3 +270,4 @@
   </script>
 </body>
 </html>
+
