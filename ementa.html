@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Cantinho da Avó</title>
+  <title>Ementa - Cantinho da Avó</title>
   <!-- Fonte -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -39,7 +39,7 @@
       z-index: 1000;
       padding: 10px 0;
     }
-    .nav .container {
+    .nav-container {
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -52,7 +52,7 @@
     .menu-links {
       list-style: none;
       display: flex;
-      gap: 15px;
+      gap: 1rem;
     }
     .menu-links li a {
       text-decoration: none;
@@ -62,6 +62,13 @@
     .menu-links li a:hover {
       color: #28a745;
     }
+    .menu-toggle {
+      display: none;
+      font-size: 1.5rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
     
     /* HEADER com imagem de fundo */
     header.header {
@@ -69,11 +76,12 @@
       height: 400px;
       display: flex;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
       text-align: center;
       color: #fff;
-      padding-top: 60px; /* Espaço para compensar a nav fixa */
+      position: relative;
+      padding-top: 60px; /* Compensa a nav fixa */
     }
     .hero-content h1 {
       font-size: 2.5rem;
@@ -95,19 +103,29 @@
       font-weight: 600;
     }
     
-    /* SEÇÃO EMENTA SEMANAL */
-    .section-title {
-      font-size: 2rem;
-      font-weight: 700;
-      margin: 80px 0 20px;
+    /* SEÇÃO EMENTA */
+    .ementa {
+      padding: 2rem 0;
       text-align: center;
+      margin-bottom: 20px;
+    }
+    .ementa-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .ementa-subtitle {
+      font-size: 1.75rem;
+      color: #777;
+      margin-bottom: 1rem;
     }
     
+    /* TABELA RESPONSIVA */
     .table-responsive {
       overflow-x: auto;
     }
     
-    /* TABELA para telas grandes */
+    /* Tabela para telas grandes */
     @media (min-width: 769px) {
       .menu-table {
         width: 100%;
@@ -133,7 +151,7 @@
       }
     }
     
-    /* TABELA para telas pequenas */
+    /* Tabela para telas pequenas */
     @media (max-width: 768px) {
       .menu-table thead {
         display: none;
@@ -144,7 +162,7 @@
       }
       .menu-table tr {
         margin-bottom: 20px;
-        border: 3px solid green; /* Borda verde grossa para cada dia */
+        border: 3px solid green;
         border-radius: 6px;
         padding: 10px;
       }
@@ -165,23 +183,61 @@
       }
     }
     
-    /* OPÇÕES: destaque para a coluna Dia */
-    .day-col {
-      font-weight: 700;
+    /* RESPONSIVO - Menu Toggle */
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: block;
+      }
+      .nav-container {
+        position: relative;
+      }
+      .menu-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: #fff;
+        padding: 1rem;
+      }
+      .menu-links.active {
+        display: flex;
+      }
+      .menu-links li {
+        margin: 0.5rem 0;
+      }
+      header.header {
+        height: 300px;
+      }
+    }
+    @media (min-width: 1200px) {
+      header.header {
+        height: 500px;
+      }
     }
   </style>
 </head>
 <body>
-  <!-- Navegação e Header (mantidos como no index) -->
-  <header class="header">
-    <nav class="nav container">
+  <!-- Navegação -->
+  <nav class="nav">
+    <div class="container nav-container">
       <div class="logo">Cantinho da Avó</div>
+      <button class="menu-toggle" aria-label="Abrir menu">☰</button>
       <ul class="menu-links">
         <li><a href="index.html">Início</a></li>
-        <li><a href="#ementa-semanal">Ementa do Dia</a></li>
-        <li><a href="#contatos">Contatos</a></li>
+        <li><a href="ementa.html">Ementa</a></li>
+        <li><a href="pastelaria.html">Pastelaria</a></li>
+        <li><a href="padaria.html">Padaria</a></li>
+        <li><a href="encomendas.html">Encomendas</a></li>
+        <li><a href="sobre.html">Sobre Nós</a></li>
+        <li><a href="contatos.html">Contatos</a></li>
       </ul>
-    </nav>
+    </div>
+  </nav>
+  
+  <!-- Header -->
+  <header class="header">
     <div class="hero-content">
       <h1>Comida caseira todos os dias!</h1>
       <p>Sabores tradicionais</p>
@@ -191,7 +247,8 @@
   
   <!-- Seção Ementa Semanal -->
   <section id="ementa-semanal" class="container">
-    <h2 class="section-title">Ementa Semanal (20 a 25 de Janeiro)</h2>
+    <h2 class="ementa-title">Ementa do dia</h2>
+    <p class="ementa-subtitle">08/04/2025</p>
     <div class="table-responsive">
       <table class="menu-table">
         <thead>
@@ -264,7 +321,21 @@
       </table>
     </div>
   </section>
+  
+  <!-- Rodapé -->
+  <footer class="footer container">
+    <p>&copy; 2025 Cantinho da Avó. Todos os direitos reservados.</p>
+  </footer>
+  
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const toggle = document.querySelector('.menu-toggle');
+      const links = document.querySelector('.menu-links');
+      toggle.addEventListener('click', () => {
+        links.classList.toggle('active');
+      });
+    });
+  </script>
 </body>
 </html>
-
 
